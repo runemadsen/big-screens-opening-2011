@@ -8,7 +8,7 @@ class Lantern : public Tweenable2D
 {
 public:
     
-    Lantern(ofxImageSequence * sequence, float xPos, float yPos, int start_time, float frame_rate);
+    Lantern(ofxImageSequence * sequence, float xPos, float yPos, int start_time, float frame_rate, float scale);
     
     void update();
     void draw();
@@ -18,4 +18,5 @@ public:
     
     int _start_time;
     float _frame_rate;
+    float _scale;
 };

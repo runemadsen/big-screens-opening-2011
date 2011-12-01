@@ -6,18 +6,56 @@ __________________________________________________________ */
 void testApp::setup()
 {
 	max_start_time = 40;
+    num_lanterns_front = 5;
+    num_lanterns_middle = 6;
+    num_lanterns_back = 7;
     
     ofSetWindowTitle("template project");
 	ofSetFrameRate(60);
     ofBackground(0, 0, 0);
     ofHideCursor();
     
-    sequence.loadSequence("frame", "png", 1, 11, 2);
+    sequence.loadSequence("A_", "png", 1, 154, 3);
 	sequence.preloadAllFrames();
     
-    lanterns.push_back(new Lantern(&sequence, 0, 0, ofRandom(max_start_time), ofRandom(1, 30)));
-    lanterns.push_back(new Lantern(&sequence, 400, 0, ofRandom(max_start_time), ofRandom(1, 30)));
-    lanterns.push_back(new Lantern(&sequence, 600, 0, ofRandom(max_start_time), ofRandom(1, 30)));
+    float xPos = 0;
+    
+    // create middle row
+    
+    for(int i = 0; i < num_lanterns_middle; i++)
+    {
+        float yPos = ofRandom(-100, -10);
+        float start_time = ofRandom(max_start_time);
+        float scale = ofRandom(0.3, 0.6);
+        float framerate = ofRandom(30, 60);
+        
+        lanterns.push_back(new Lantern(&sequence, xPos, yPos, start_time, framerate, scale));
+        
+        xPos += ((ofGetWidth() - 200) / num_lanterns_middle);
+        cout << xPos << "\n";
+    }
+    
+    // Create front row
+    
+    xPos = 0;
+    
+    for(int i = 0; i < num_lanterns_front; i++)
+    {
+        float yPos = ofRandom(-100, -10);
+        float start_time = ofRandom(max_start_time);
+        float scale = ofRandom(0.7, 0.9);
+        float framerate = ofRandom(30, 60);
+        
+        lanterns.push_back(new Lantern(&sequence, xPos, yPos, start_time, framerate, scale));
+        
+        xPos += ((ofGetWidth() - 200) / num_lanterns_front);
+        cout << xPos << "\n";
+    }
+    
+    
+    
+    
+    
     
     title = new Title(scale, xPos, yPos, group_line1, group_line2, project_line1, project_line2);
     title->alpha = 0;

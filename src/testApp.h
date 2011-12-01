@@ -12,8 +12,6 @@ class testApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
-    
-        void loadXML();
 
 		void keyPressed  (int key);
 		void keyReleased(int key);
@@ -41,5 +39,8 @@ class testApp : public ofBaseApp{
         ofxImageSequence sequence;
         vector <Lantern *> lanterns;
     
-        int max_start_time; 
+        int max_start_time;
+        int num_lanterns_front;
+        int num_lanterns_middle;
+        int num_lanterns_back;
 };
