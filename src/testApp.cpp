@@ -8,7 +8,10 @@ void testApp::setup()
 	max_start_time = 40;
     num_lanterns_front = 5;
     num_lanterns_middle = 7;
-    sequence_letters = "B";//"BEHKNOPQSXYZ";
+    sequence_letters = "BEHKNOPQSXYZ";
+    float full_size = (ofGetHeight() * 0.70);
+    int survival_min = 30000;
+    int survival_max = 60000;
     
     loadXML();
     
@@ -37,9 +40,6 @@ void testApp::setup()
     
     float xPos = 0;
     float xRandom = ofGetHeight() / 7;
-    float full_size = (ofGetHeight() * 0.70);
-    int survival_min = 3000;
-    int survival_max = 6000;
     
     // create middle row
     
@@ -80,7 +80,7 @@ void testApp::setup()
     }
     
     
-    title = new Title(scale, xPos, yPos);
+    title = new Title(scale, xTitlePos, yTitlePos);
     title->alpha = 255;
     
     if (ofGetWidth() == 3840) 
@@ -94,8 +94,8 @@ void testApp::loadXML()
     XML.loadFile("settings.xml");
     
     scale = XML.getValue("root:scale", 1.0);
-	xPos = XML.getValue("root:xpos", 0);
-	yPos = XML.getValue("root:ypos", 0);
+	xTitlePos = XML.getValue("root:xpos", 0);
+	yTitlePos = XML.getValue("root:ypos", 0);
 }
 
 /*  Update

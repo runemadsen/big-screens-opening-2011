@@ -29,8 +29,8 @@ class testApp : public ofBaseApp{
     
         // XML Data
         float scale;
-        int xPos;
-        int yPos;
+        int xTitlePos;
+        int yTitlePos;
         string group_line1;
         string group_line2;
         string project_line1;

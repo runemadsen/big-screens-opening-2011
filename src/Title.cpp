@@ -4,11 +4,14 @@ Title::Title(float scale, int xPos, int yPos)
 {
     if (ofGetWidth() != 3840) 
     {
+        cout << "Setting vars for smaller screen \n";
         float percent = ofGetWidth() / 3840.0;
         scale = scale * percent;
         xPos = xPos * percent;
         yPos = yPos * percent;
     }
+    
+    cout << "xPos: " << xPos << "\n";
     
     _scale = scale;
     pos.set(xPos,yPos,0);

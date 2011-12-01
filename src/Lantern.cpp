@@ -8,7 +8,7 @@ Lantern::Lantern(ofxImageSequence * sequence, float xPos, float yPos, int start_
     _start_time = start_time;
     _frame_rate = frame_rate;
     _size = size;
-    _survival = survival;    
+    _survival = survival;   
     _start_millis = ofGetElapsedTimeMillis();
     
     alpha = 255;
