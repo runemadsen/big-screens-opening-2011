@@ -1,6 +1,6 @@
 #include "Title.h"
 
-Title::Title(float scale, int xPos, int yPos, string group_line1, string group_line2, string project_line1, string project_line2)
+Title::Title(float scale, int xPos, int yPos)
 {
     if (ofGetWidth() != 3840) 
     {
@@ -12,10 +12,6 @@ Title::Title(float scale, int xPos, int yPos, string group_line1, string group_l
     
     _scale = scale;
     pos.set(xPos,yPos,0);
-    _group_line1 = group_line1;
-    _group_line2 = group_line2;
-    _project_line1 = Tools::toUpperCase(project_line1);
-    _project_line2 = Tools::toUpperCase(project_line2);
     
     _padding = 10 * _scale;
     _font_size = 80 * _scale;
@@ -37,26 +33,11 @@ void Title::draw()
     
     int y = pos.y;
     
-    draw_line(pos.x, y, _project_line1);
-    
-    // draw line 2
-    if(_project_line2 != "NULL")
-    {
-        y += _font_size + (2 * _padding) + (_font_size / 3);
-        draw_line(pos.x, y, _project_line2);
-    }
-    
-    // draw group line 1
     ofSetColor(255, 255, 255, alpha);
-    y += _font_size * 2;
-    _light_font.drawString(_group_line1, pos.x, y);
+    _light_font.drawString("ITP Presents", pos.x, y);
+    y += _light_font_size;
     
-    // draw group line 2
-    if(_group_line2 != "null")
-    {
-        y += _light_font_size * 1.8;
-        _light_font.drawString(_group_line2, pos.x, y);
-    }
+    draw_line(pos.x, y, "BIG SCREENS");
     
     ofDisableAlphaBlending();
 }

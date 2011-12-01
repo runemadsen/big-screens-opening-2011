@@ -5,6 +5,8 @@
 #include "ofxImageSequence.h"
 #include "Title.h"
 #include "Lantern.h"
+#include <sstream>
+#include <string>
 
 class testApp : public ofBaseApp{
 
@@ -12,7 +14,9 @@ class testApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
-
+        void loadXML();
+    
+    
 		void keyPressed  (int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
@@ -39,8 +43,10 @@ class testApp : public ofBaseApp{
         ofxImageSequence sequence;
         vector <Lantern *> lanterns;
     
+        ofxImageSequence sequences[26];
+    
         int max_start_time;
         int num_lanterns_front;
         int num_lanterns_middle;
-        int num_lanterns_back;
+        string sequence_letters;
 };

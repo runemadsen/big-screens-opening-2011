@@ -6,7 +6,7 @@
 class Title : public Tweenable2D
 {
 public:
-    Title(float scale, int xPos, int yPos, string group_line1, string group_line2, string project_line1, string project_line2);
+    Title(float scale, int xPos, int yPos);
     void update();
     void draw();
     

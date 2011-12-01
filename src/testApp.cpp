@@ -7,59 +7,81 @@ void testApp::setup()
 {
 	max_start_time = 40;
     num_lanterns_front = 5;
-    num_lanterns_middle = 6;
-    num_lanterns_back = 7;
+    num_lanterns_middle = 7;
+    sequence_letters = "B";//"BEHKNOPQSXYZ";
+    
+    loadXML();
     
     ofSetWindowTitle("template project");
 	ofSetFrameRate(60);
     ofBackground(0, 0, 0);
     ofHideCursor();
     
-    sequence.loadSequence("A_", "png", 1, 154, 3);
-	sequence.preloadAllFrames();
+    // load sequences
+    for(int i = 0; i < sequence_letters.length(); i++)
+    {
+        stringstream ss;
+        string let;
+        char c = sequence_letters[i];
+        ss << c;
+        ss >> let;
+        let += "_";
+        
+        if(let != "G_")
+        {
+            sequences[i].loadSequence(let, "png", 1, 154, 3);
+            sequences[i].preloadAllFrames();
+            cout << "loaded sequence: " << let << "\n"; 
+        }
+    }
     
     float xPos = 0;
+    float xRandom = ofGetHeight() / 7;
+    float full_size = (ofGetHeight() * 0.70);
+    int survival_min = 3000;
+    int survival_max = 6000;
     
     // create middle row
     
     for(int i = 0; i < num_lanterns_middle; i++)
     {
-        float yPos = ofRandom(-100, -10);
+        float yPos = ofRandom(-100, -20);
         float start_time = ofRandom(max_start_time);
-        float scale = ofRandom(0.3, 0.6);
-        float framerate = ofRandom(30, 60);
+        float scale = ofRandom(0.5, 0.8);
+        float framerate = ofRandom(20, 40);
+        float size = full_size * scale;
+        float survival = ofRandom(survival_min, survival_max);
+        int index = round(ofRandom(sequence_letters.length()-1));
+        cout << index << "\n";
         
-        lanterns.push_back(new Lantern(&sequence, xPos, yPos, start_time, framerate, scale));
+        lanterns.push_back(new Lantern(&sequences[index],i > 0 && i < num_lanterns_middle - 1 ? xPos - ofRandom(xRandom) : xPos, yPos, start_time, framerate, size, survival));
         
-        xPos += ((ofGetWidth() - 200) / num_lanterns_middle);
-        cout << xPos << "\n";
+        xPos += ((ofGetWidth() - 300) / (num_lanterns_middle - 1));
     }
     
     // Create front row
     
+    xRandom = ofGetHeight() / 4;
     xPos = 0;
     
     for(int i = 0; i < num_lanterns_front; i++)
     {
-        float yPos = ofRandom(-100, -10);
+        float yPos = ofRandom(-100, -20);
         float start_time = ofRandom(max_start_time);
-        float scale = ofRandom(0.7, 0.9);
-        float framerate = ofRandom(30, 60);
+        float scale = ofRandom(0.75, 1);
+        float framerate = ofRandom(20, 50);
+        float size = full_size * scale;
+        float survival = ofRandom(survival_min, survival_max);
+        int index = round(ofRandom(sequence_letters.length()-1));
         
-        lanterns.push_back(new Lantern(&sequence, xPos, yPos, start_time, framerate, scale));
+        lanterns.push_back(new Lantern(&sequences[index],i > 0 && i < num_lanterns_front - 1 ? xPos - ofRandom(xRandom) : xPos, yPos, start_time, framerate, size, survival));
         
-        xPos += ((ofGetWidth() - 200) / num_lanterns_front);
-        cout << xPos << "\n";
+        xPos += ((ofGetWidth() - 200) / (num_lanterns_front - 1));
     }
     
     
-    
-    
-    
-    
-    title = new Title(scale, xPos, yPos, group_line1, group_line2, project_line1, project_line2);
-    title->alpha = 0;
-    //title->tweenAlphaTo(255, 3, EasingEquations::EASE_INOUT_CUBIC, 2);
+    title = new Title(scale, xPos, yPos);
+    title->alpha = 255;
     
     if (ofGetWidth() == 3840) 
     {
@@ -67,11 +89,30 @@ void testApp::setup()
     }
 }
 
+void testApp::loadXML()
+{
+    XML.loadFile("settings.xml");
+    
+    scale = XML.getValue("root:scale", 1.0);
+	xPos = XML.getValue("root:xpos", 0);
+	yPos = XML.getValue("root:ypos", 0);
+}
+
 /*  Update
 __________________________________________________________ */
 
 void testApp::update()
 {
+    for(int i = 0; i < lanterns.size(); i++)
+    {
+        lanterns[i]->update();
+        
+        if(lanterns[i]->is_faded_down())
+        {
+            int index = round(ofRandom(sequence_letters.length()-1));
+            lanterns[i]->reset(&sequences[index]);
+        }
+    }
 }
 
 /*  Draw
